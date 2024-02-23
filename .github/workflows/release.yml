@@ -8,11 +8,13 @@ jobs:
   create_release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Go
-        uses: actions/setup-go@v2
+      - uses: actions/checkout@v4
         with:
-          go-version: 1.20.3
+          lfs: true
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.21
       - name: Build artifacts
         run: |
           for cfgstr in "darwin amd64" "darwin arm64" "linux amd64" "windows amd64"; do
