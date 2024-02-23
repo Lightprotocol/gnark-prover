@@ -26,7 +26,7 @@ run_benchmark() {
     local utxos=$1
     echo "Benchmarking with $utxos utxos..."
     TEST_FILE="inputs_${DEPTH}_${utxos}.json"
-    curl -X POST -d @"${TEST_FILE}" "$URL"
+    curl -s -S -X POST -d @"${TEST_FILE}" "$URL" -o /dev/null
     sleep 1
 }
 
@@ -64,6 +64,7 @@ for utxos in "${utxos_arr[@]}"
 do
     run_benchmark $utxos
 done
+echo "Done. Benchmarking results are in log.txt."
 
 # Kill the server
 killall light-prover
