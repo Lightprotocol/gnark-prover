@@ -81,6 +81,7 @@ func Run(config *Config, provingSystem []*prover.ProvingSystem) RunningJob {
 
 	proverMux := http.NewServeMux()
 	proverMux.Handle("/prove", proveHandler{provingSystem: provingSystem})
+	proverMux.Handle("/health", healthHandler{})
 	proverServer := &http.Server{Addr: config.ProverAddress, Handler: proverMux}
 	proverJob := spawnServerJob(proverServer, "prover server")
 	logging.Logger().Info().Str("addr", config.ProverAddress).Msg("app server started")
@@ -90,6 +91,9 @@ func Run(config *Config, provingSystem []*prover.ProvingSystem) RunningJob {
 
 type proveHandler struct {
 	provingSystem []*prover.ProvingSystem
+}
+
+type healthHandler struct {
 }
 
 func (handler proveHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -143,6 +147,20 @@ func (handler proveHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	_, err = w.Write(responseBytes)
 
+	if err != nil {
+		logging.Logger().Error().Err(err).Msg("error writing response")
+	}
+}
+
+func (handler healthHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+	logging.Logger().Info().Msg("received health check request")
+	responseBytes, err := json.Marshal(map[string]string{"status": "ok"})
+	w.WriteHeader(http.StatusOK)
+	_, err = w.Write(responseBytes)
 	if err != nil {
 		logging.Logger().Error().Err(err).Msg("error writing response")
 	}
