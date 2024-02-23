@@ -152,7 +152,7 @@ func runCli() {
 			{
 				Name: "export-vk",
 				Flags: []cli.Flag{
-					&cli.StringFlag{Name: "keys-file", Usage: "proving system file", Required: true},
+					&cli.StringFlag{Name: "keys-file", Aliases: []string{"k"}, Usage: "proving system file", Required: true},
 					&cli.StringFlag{Name: "output", Usage: "output file", Required: true},
 				},
 				Action: func(context *cli.Context) error {
@@ -216,7 +216,7 @@ func runCli() {
 						Usage:    "Load configuration from `FILE`",
 						Required: false,
 					},
-					&cli.StringSliceFlag{Name: "keys-file", Value: cli.NewStringSlice(), Usage: "Proving system file"},
+					&cli.StringSliceFlag{Name: "keys-file", Aliases: []string{"k"}, Value: cli.NewStringSlice(), Usage: "Proving system file"},
 				},
 				Action: func(context *cli.Context) error {
 					if context.Bool("json-logging") {
@@ -252,7 +252,7 @@ func runCli() {
 						Usage:    "Load configuration from `FILE`",
 						Required: false,
 					},
-					&cli.StringSliceFlag{Name: "keys-file", Value: cli.NewStringSlice(), Usage: "Proving system file"},
+					&cli.StringSliceFlag{Name: "keys-file", Aliases: []string{"k"}, Value: cli.NewStringSlice(), Usage: "Proving system file"},
 				},
 				Action: func(context *cli.Context) error {
 
@@ -295,7 +295,7 @@ func runCli() {
 			{
 				Name: "verify",
 				Flags: []cli.Flag{
-					&cli.StringFlag{Name: "keys-file", Usage: "proving system file", Required: true},
+					&cli.StringFlag{Name: "keys-file", Aliases: []string{"k"}, Usage: "proving system file", Required: true},
 					&cli.StringFlag{Name: "root", Usage: "array of roots", Required: true},
 					&cli.StringFlag{Name: "leaf", Usage: "array of leafs", Required: true},
 				},
