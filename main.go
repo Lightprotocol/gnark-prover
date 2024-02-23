@@ -415,7 +415,7 @@ func LoadKeysFromConfigOrInline(context *cli.Context) ([]*prover.ProvingSystem, 
 	if len(cfg.Keys) == 0 {
 		logging.Logger().Info().Msg("No config file provided, using defaults")
 		cfg = config.Config{
-			Keys: []string{"circuit_26_1"},
+			Keys: []string{"circuit_26_1.key", "circuit_26_2.key", "circuit_26_3.key", "circuit_26_4.key", "circuit_26_8.key"},
 		}
 	}
 
